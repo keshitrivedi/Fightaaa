@@ -18,10 +18,13 @@ function love.load()
         ['Fight'] = function() return FightState() end
     }
 
+    gCharacterSheet = love.graphics.newImage('graphics/character.png')
+    gCharacterQuads = GenerateQuads(gCharacterSheet, 16, 20)
+
     fighters = {
-        Fighter(1, 'f1', 0, 0, 16, 20),
-        Fighter(2, 'f2', 0, 0, 16, 20),
-        Fighter(3, 'f3', 0, 0, 16, 20)
+        Fighter(1, 'f1', 0, 0, 16, 20, gCharacterQuads[1]),
+        Fighter(2, 'f2', 0, 0, 16, 20, gCharacterQuads[1]),
+        Fighter(3, 'f3', 0, 0, 16, 20, gCharacterQuads[1])
     }
 
     -- gStateMachine:change('choose', {fighters = fighters})
