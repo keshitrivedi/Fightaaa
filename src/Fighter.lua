@@ -8,16 +8,74 @@ function Fighter:init(serial, name, x, y, width, height, img)
     self.y = y
     self.width = width
     self.height = height
+    self.dy = 0
 
     self.img = img
 
     self.orientation = 'left'
+
+    idleAnimation = Animation {
+        frames = {1},
+        interval = 1
+    }
+
+    movingAnimation = Animation {
+        frames = {10, 11},
+        interval = 0.2
+    }
+
+    jumpAnimation = Animation {
+        frames = {3},
+        interval = 1
+    }
+
+    self.currentAnimation = idleAnimation
 end
 
 function Fighter:update(dt)
+
+    self.y = VIRTUAL_HEIGHT/2 - self.width/2
+
+    self.dy = self.dy + GRAVITY
+    self.y = self.y + (self.dy)*dt
+
+    if self.y > VIRTUAL_HEIGHT/2 - self.width/2 then
+        self.y = VIRTUAL_HEIGHT/2 - self.width/2
+        self.dy = 0
+    end
+
+    self.currentAnimation:update(dt)
+
+    if self.orientation == 'left' then
+        if love.keyboard.isDown('a') then
+            self.x = math.max((self.x - CHARACTER_SPEED*dt), 0)
+            self.currentAnimation = movingAnimation
+        elseif love.keyboard.isDown('d') then
+            self.x = math.min((self.x + CHARACTER_SPEED*dt), VIRTUAL_WIDTH-16)
+            self.currentAnimation = movingAnimation
+        elseif love.keyboard.wasPressed('w') and self.dy == 0 then
+            self.dy = JUMP_VELOCITY
+            self.currentAnimation = jumpAnimation
+        else
+            self.currentAnimation = idleAnimation
+        end
+    elseif self.orientation == 'right' then
+        if love.keyboard.isDown('left') then
+            self.x = math.max((self.x - CHARACTER_SPEED*dt), 0)
+            self.currentAnimation = movingAnimation
+        elseif love.keyboard.isDown('right') then
+            self.x = math.min((self.x + CHARACTER_SPEED*dt), VIRTUAL_WIDTH-16)
+            self.currentAnimation = movingAnimation
+        elseif love.keyboard.wasPressed('space') and self.dy == 0 then
+            self.dy = JUMP_VELOCITY
+            self.currentAnimation = jumpAnimation
+        else
+            self.currentAnimation = idleAnimation
+        end
+    end
 end
 
 function Fighter:render()
-    love.graphics.draw(gCharacterSheet, gCharacterQuads[1], self.x, 0)
+    love.graphics.draw(gCharacterSheet, gCharacterQuads[self.currentAnimation:getCurrentFrame()], self.x, self.y, 0, self.orientation == 'right' and -1 or 1, 1)
 end
 

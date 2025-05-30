@@ -4,12 +4,20 @@ gFighter1 = {}
 gFighter2 = {}
 
 function ChooseFighterState:enter(params)
-    self.options = params.fighters
+    self.options = self.options or params.fighters
     self.fighterToBeSelected = params.fighterToBeSelected or 1
 end
 
 function ChooseFighterState:init()
     self.currentFighter = 1
+end
+
+function indexOf(tbl, val)
+    for i, v in ipairs(tbl) do
+        if v == val then
+            return i
+        end
+    end
 end
 
 function ChooseFighterState:update(dt)
@@ -36,6 +44,10 @@ function ChooseFighterState:update(dt)
         if self.fighterToBeSelected == 1 then
             gFighter1 = self.options[self.currentFighter]
             self.fighterToBeSelected = 2
+
+            if gFighter1 then
+                table.remove(self.options, indexOf(self.options, gFighter1))
+            end
             gStateMachine:change('prompt', {fighterNumber = 2})
         else
             gFighter2 = self.options[self.currentFighter]

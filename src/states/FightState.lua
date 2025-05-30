@@ -5,6 +5,7 @@ function FightState:enter(def)
     self.fighterRight = def.Fighter2
 
     self.fighterRight.x = VIRTUAL_WIDTH-16
+    self.fighterRight.orientation = 'right'
 end
 
 function FightState:init()
@@ -14,20 +15,8 @@ function FightState:update(dt)
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
-    self.fighterLeft:update()
-    self.fighterRight:update()
-
-    if love.keyboard.isDown('left') then
-        self.fighterLeft.x = math.max((self.fighterLeft.x - CHARACTER_SPEED*dt), 0)
-    elseif love.keyboard.isDown('right') then
-        self.fighterLeft.x = math.min((self.fighterLeft.x + CHARACTER_SPEED*dt), VIRTUAL_WIDTH-16)
-    end
-
-    if love.keyboard.isDown('a') then
-        self.fighterRight.x = math.max((self.fighterRight.x - CHARACTER_SPEED*dt), 0)
-    elseif love.keyboard.isDown('d') then
-        self.fighterRight.x = math.min((self.fighterRight.x + CHARACTER_SPEED*dt), VIRTUAL_WIDTH-16)
-    end
+    self.fighterLeft:update(dt)
+    self.fighterRight:update(dt)
 
 end
 
