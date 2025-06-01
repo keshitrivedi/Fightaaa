@@ -30,11 +30,11 @@ function Fighter:init(serial, name, x, y, width, height, img)
     }
 
     self.currentAnimation = idleAnimation
+
+    self.isOnGround = true
 end
 
 function Fighter:update(dt)
-
-    self.y = VIRTUAL_HEIGHT/2 - self.width/2
 
     self.dy = self.dy + GRAVITY
     self.y = self.y + (self.dy)*dt
@@ -42,6 +42,9 @@ function Fighter:update(dt)
     if self.y > VIRTUAL_HEIGHT/2 - self.width/2 then
         self.y = VIRTUAL_HEIGHT/2 - self.width/2
         self.dy = 0
+        self.isOnGround = true
+    else
+        self.isOnGround = false
     end
 
     self.currentAnimation:update(dt)
@@ -59,6 +62,7 @@ function Fighter:update(dt)
         else
             self.currentAnimation = idleAnimation
         end
+        
     elseif self.orientation == 'right' then
         if love.keyboard.isDown('left') then
             self.x = math.max((self.x - CHARACTER_SPEED*dt), 0)
@@ -66,7 +70,7 @@ function Fighter:update(dt)
         elseif love.keyboard.isDown('right') then
             self.x = math.min((self.x + CHARACTER_SPEED*dt), VIRTUAL_WIDTH-16)
             self.currentAnimation = movingAnimation
-        elseif love.keyboard.wasPressed('space') and self.dy == 0 then
+        elseif love.keyboard.isDown('space') and self.dy == 0 then
             self.dy = JUMP_VELOCITY
             self.currentAnimation = jumpAnimation
         else
@@ -78,4 +82,3 @@ end
 function Fighter:render()
     love.graphics.draw(gCharacterSheet, gCharacterQuads[self.currentAnimation:getCurrentFrame()], self.x, self.y, 0, self.orientation == 'right' and -1 or 1, 1)
 end
-

@@ -29,7 +29,7 @@ function StartState:update(dt)
 end
 
 function StartState:render()
-    local x = 28
+    local x = 84
     for i = 1, self.currBar do
         love.graphics.rectangle('fill', x, VIRTUAL_WIDTH/2, 16, 16)
 

@@ -53,6 +53,7 @@ end
 
 function love.draw()
     push:start()
+    love.graphics.setBackgroundColor(150, 150, 150)
     gStateMachine:render()
     push:finish()
 end
