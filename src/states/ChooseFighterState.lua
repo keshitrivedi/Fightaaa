@@ -10,6 +10,25 @@ end
 
 function ChooseFighterState:init()
     self.currentFighter = 1
+
+    self.chooseAnims = {
+        Animation {
+            frames = {1, 2},
+            interval = 1
+        },
+
+        Animation {
+            frames = {3, 4, 5, 6},
+            interval = 0.3
+        },
+
+        Animation {
+            frames = {7},
+            interval = 1
+        }
+    }
+    self.currAnimChar = 1
+    self.currentAnimation = self.chooseAnims[self.currAnimChar]
 end
 
 function indexOf(tbl, val)
@@ -22,6 +41,9 @@ end
 
 function ChooseFighterState:update(dt)
 
+    self.currentAnimation = self.chooseAnims[self.currAnimChar]
+    self.currentAnimation:update(dt)
+
     if love.keyboard.wasPressed('escape') then
         love.event.quit()
     end
@@ -29,14 +51,18 @@ function ChooseFighterState:update(dt)
     if love.keyboard.wasPressed('left') then
         if self.currentFighter ~= 1 then
             self.currentFighter = self.currentFighter - 1
+            self.currAnimChar = self.currAnimChar - 1
         else 
             self.currentFighter = #self.options
+            self.currAnimChar = #self.chooseAnims
         end
     elseif love.keyboard.wasPressed('right') then
         if self.currentFighter ~= #self.options then
             self.currentFighter = self.currentFighter + 1
+            self.currAnimChar = self.currAnimChar + 1
         else
             self.currentFighter = 1
+            self.currAnimChar = 1
         end
     end
 
@@ -60,4 +86,5 @@ function ChooseFighterState:render()
     love.graphics.print(tostring(self.options[self.currentFighter].name))
     love.graphics.printf(tostring(gFighter1.name), 0, VIRTUAL_HEIGHT/4, VIRTUAL_WIDTH, 'center')
     love.graphics.printf(tostring(gFighter2.name), 0, VIRTUAL_HEIGHT/3, VIRTUAL_WIDTH, 'center')
+    love.graphics.draw(gChooseSheet, gChooseQuads[self.currentAnimation:getCurrentFrame()], VIRTUAL_WIDTH/2 - 50, VIRTUAL_HEIGHT/2 - 30)
 end

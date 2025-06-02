@@ -21,6 +21,9 @@ function love.load()
     gCharacterSheet = love.graphics.newImage('graphics/character.png')
     gCharacterQuads = GenerateQuads(gCharacterSheet, 16, 20)
 
+    gChooseSheet = love.graphics.newImage('graphics/chooseanim.jpg')
+    gChooseQuads = GenerateQuads(gChooseSheet, 100, 150)
+
     fighters = {
         Fighter(1, 'f1', 0, 0, 16, 20, gCharacterQuads[1]),
         Fighter(2, 'f2', 0, 0, 16, 20, gCharacterQuads[1]),
