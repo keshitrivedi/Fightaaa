@@ -1,18 +1,21 @@
 Fighter = Class{}
 
-function Fighter:init(serial, name, x, y, width, height, img)
-    self.serial = serial
-    self.name = name
+-- serial, name, x, y, width, height, img
+function Fighter:init(params)
+    self.serial = params.serial
+    self.name = params.name
     
-    self.x = x
-    self.y = y
-    self.width = width
-    self.height = height
+    self.x = params.x
+    self.y = params.y
+    self.width = params.width
+    self.height = params.height
     self.dy = 0
 
-    self.img = img
+    self.img = params.img
 
     self.orientation = 'left'
+
+    self.anim = params.anim
 
     idleAnimation = Animation {
         frames = {1},

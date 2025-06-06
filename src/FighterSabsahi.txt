@@ -36,8 +36,6 @@ end
 
 function Fighter:update(dt)
 
-    -- self.y = VIRTUAL_HEIGHT/2 - self.width/2
-
     self.dy = self.dy + GRAVITY
     self.y = self.y + (self.dy)*dt
 

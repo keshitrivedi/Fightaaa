@@ -6,29 +6,31 @@ gFighter2 = {}
 function ChooseFighterState:enter(params)
     self.options = self.options or params.fighters
     self.fighterToBeSelected = params.fighterToBeSelected or 1
+
+    self.currentAnimation = self.options[self.currentFighter].anim
 end
 
 function ChooseFighterState:init()
     self.currentFighter = 1
 
-    self.chooseAnims = {
-        Animation {
-            frames = {1, 2},
-            interval = 1
-        },
+    -- self.chooseAnims = self.chooseAnims or {
+    --     Animation {
+    --         frames = {1, 2},
+    --         interval = 1
+    --     },
 
-        Animation {
-            frames = {3, 4, 5, 6},
-            interval = 0.3
-        },
+    --     Animation {
+    --         frames = {3, 4, 5, 6},
+    --         interval = 0.3
+    --     },
 
-        Animation {
-            frames = {7},
-            interval = 1
-        }
-    }
+    --     Animation {
+    --         frames = {7, 8, 9, 10},
+    --         interval = 0.4
+    --     }
+    -- }
     self.currAnimChar = 1
-    self.currentAnimation = self.chooseAnims[self.currAnimChar]
+    -- self.currentAnimation = self.options[self.currentFighter].anim
 end
 
 function indexOf(tbl, val)
@@ -41,7 +43,7 @@ end
 
 function ChooseFighterState:update(dt)
 
-    self.currentAnimation = self.chooseAnims[self.currAnimChar]
+    self.currentAnimation = self.options[self.currentFighter].anim
     self.currentAnimation:update(dt)
 
     if love.keyboard.wasPressed('escape') then
@@ -51,18 +53,14 @@ function ChooseFighterState:update(dt)
     if love.keyboard.wasPressed('left') then
         if self.currentFighter ~= 1 then
             self.currentFighter = self.currentFighter - 1
-            self.currAnimChar = self.currAnimChar - 1
         else 
             self.currentFighter = #self.options
-            self.currAnimChar = #self.chooseAnims
         end
     elseif love.keyboard.wasPressed('right') then
         if self.currentFighter ~= #self.options then
             self.currentFighter = self.currentFighter + 1
-            self.currAnimChar = self.currAnimChar + 1
         else
             self.currentFighter = 1
-            self.currAnimChar = 1
         end
     end
 

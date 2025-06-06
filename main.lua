@@ -21,13 +21,13 @@ function love.load()
     gCharacterSheet = love.graphics.newImage('graphics/character.png')
     gCharacterQuads = GenerateQuads(gCharacterSheet, 16, 20)
 
-    gChooseSheet = love.graphics.newImage('graphics/chooseanim.jpg')
+    gChooseSheet = love.graphics.newImage('graphics/chooseanimpng2.png')
     gChooseQuads = GenerateQuads(gChooseSheet, 100, 150)
 
     fighters = {
-        Fighter(1, 'f1', 0, 0, 16, 20, gCharacterQuads[1]),
-        Fighter(2, 'f2', 0, 0, 16, 20, gCharacterQuads[1]),
-        Fighter(3, 'f3', 0, 0, 16, 20, gCharacterQuads[1])
+        Fighter({serial = 1, name = 'f1', x = 0, y = 0, width = 16, height = 20, img = gCharacterQuads[1], anim = Animation {frames = {1, 2}, interval = 1}}),
+        Fighter({serial = 2, name = 'f2', x = 0, y = 0, width = 16, height = 20, img = gCharacterQuads[1], anim = Animation {frames = {3, 4, 5, 6}, interval = 0.3}}),
+        Fighter({serial = 3, name = 'f3', x = 0, y = 0, width = 16, height = 20, img = gCharacterQuads[1], anim = Animation {frames = {7, 8, 9, 10}, interval = 0.4}})
     }
 
     -- gStateMachine:change('choose', {fighters = fighters})
